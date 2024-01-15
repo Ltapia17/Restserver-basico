@@ -5,10 +5,12 @@ const { dbConnection } = require('../database/config');
 
 class Server {
 
-    constructor (){
+    constructor() {
         this.app = express();
         this.PORT = process.env.PORT;
+
         this.usuariosPath = '/api/usuarios';
+        this.authPath = '/api/auth';
 
         //conectar a base de datos
         this.conectarDB();
@@ -19,15 +21,15 @@ class Server {
 
         //rutas
         this.routes();
-        
+
     }
 
 
-    async conectarDB(){
+    async conectarDB() {
         await dbConnection();
     }
 
-    middlewares(){
+    middlewares() {
 
         //cors
         this.app.use(cors())
@@ -36,22 +38,23 @@ class Server {
         this.app.use(express.json());
 
         //directorio publico
-        this.app.use( express.static('public'));
+        this.app.use(express.static('public'));
 
     }
 
-    routes(){
+    routes() {
 
-        this.app.use(this.usuariosPath,require('../routes/usuarios'));
+        this.app.use(this.usuariosPath, require('../routes/usuarios'));
+        this.app.use(this.authPath, require('../routes/auth'));
 
     }
 
 
-    listen(){
-        
-    this.app.listen(this.PORT,()=>{
-    console.log('Servidor corriendo en puerto:',this.PORT);
-})
+    listen() {
+
+        this.app.listen(this.PORT, () => {
+            console.log('Servidor corriendo en puerto:', this.PORT);
+        })
     }
 
 }
