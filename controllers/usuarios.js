@@ -24,11 +24,9 @@ const usuarioget = async (req, res = response) => {
     });
 
 
-
 }
 
 const usuariosPost = async (req, res = response) => {
-
 
 
     const { nombre, correo, google, password, rol } = req.body;
